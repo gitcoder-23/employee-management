@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { Button, Modal, notification, Alert, Space } from "antd";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import Avatar from "react-avatar";
-import { find } from "lodash";
-import API from "../api";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { Button, Modal, notification, Alert, Space } from 'antd';
+import { PlusCircleOutlined } from '@ant-design/icons';
+import Avatar from 'react-avatar';
+import { find } from 'lodash';
+import API from '../api';
 // import { Alert } from 'react-bootstrap';
-import { ViewIcon, EditIcon, DeleteIcon, NextIcon } from "../constant/icons";
+import { ViewIcon, EditIcon, DeleteIcon, NextIcon } from '../constant/icons';
 
 const EmployeeList = () => {
   const [employee, setEmployee] = useState([]);
-  const [singleEmployee, setSingleEmployee] = useState({ name: "", _id: "" });
+  const [singleEmployee, setSingleEmployee] = useState({ name: '', _id: '' });
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   // Search
-  const [search, setSearch] = useState("");
-  const [query, setQuery] = useState("name");
+  const [search, setSearch] = useState('');
+  const [query, setQuery] = useState('name');
 
   // for edit form
   const [isSecondModalVisible, setIsSecondModalVisible] = useState(false);
@@ -36,7 +36,7 @@ const EmployeeList = () => {
     setLoading(true);
     try {
       // department respect employee
-      const deptData = await API.get("/employee?populate=department");
+      const deptData = await API.get('/employee?populate=department');
       setEmployee(deptData.data.data);
       setLoading(false);
     } catch (error) {
@@ -78,7 +78,7 @@ const EmployeeList = () => {
     e.preventDefault();
     setQuery(search);
     // to reset after search button click
-    setSearch("");
+    setSearch('');
   };
 
   const handleEditOk = () => {
@@ -113,8 +113,8 @@ const EmployeeList = () => {
     })
       .then((data) => {
         notification.success({
-          message: "Success",
-          description: "Employee is updated successfully",
+          message: 'Success',
+          description: 'Employee is updated successfully',
         });
         setIsSecondModalVisible(false);
         getEmployee();
@@ -151,8 +151,8 @@ const EmployeeList = () => {
     })
       .then((data) => {
         notification.success({
-          message: "Success",
-          description: "Employee is added successfully",
+          message: 'Success',
+          description: 'Employee is added successfully',
         });
         setIsThirdModalVisible(false);
         getEmployee();
@@ -171,19 +171,19 @@ const EmployeeList = () => {
     });
   };
   const addEmployeeData = (add) => {
-    console.log("add", add);
+    console.log('add', add);
     setAddValue(add);
     setIsThirdModalVisible(true);
   };
 
   // delete
   const makeDelete = (delID) => {
-    if (window.confirm("Do you want to delete?")) {
+    if (window.confirm('Do you want to delete?')) {
       API.delete(`/employee/${delID}`)
         .then((data) => {
           notification.success({
-            message: "Success",
-            description: "Employee deleted successfully",
+            message: 'Success',
+            description: 'Employee deleted successfully',
           });
           getEmployee();
         })
@@ -286,7 +286,7 @@ const EmployeeList = () => {
               <Alert variant="success">
                 <div
                   className="success-message"
-                  style={{ textAlign: "center" }}
+                  style={{ textAlign: 'center' }}
                 >
                   Success! Employee saved
                 </div>
@@ -352,11 +352,11 @@ const EmployeeList = () => {
                 class="form-control me-sm-2"
                 placeholder="Search department"
                 style={{
-                  height: "35px",
-                  display: "initial",
-                  padding: "0 5px",
-                  width: "70%",
-                  fontSize: "14px",
+                  height: '35px',
+                  display: 'initial',
+                  padding: '0 5px',
+                  width: '70%',
+                  fontSize: '14px',
                 }}
                 type="text"
                 value={search}
@@ -366,9 +366,9 @@ const EmployeeList = () => {
               <button
                 class="btn btn-primary my-2 my-sm-0"
                 style={{
-                  height: "35px",
-                  padding: "0 5px",
-                  width: "20%",
+                  height: '35px',
+                  padding: '0 5px',
+                  width: '20%',
                 }}
                 type="submit"
               >
@@ -398,7 +398,7 @@ const EmployeeList = () => {
           <tbody>
             {employee
               .filter((val) => {
-                if (search === "") {
+                if (search === '') {
                   return val;
                 } else if (
                   val.name.toLowerCase().includes(search.toLowerCase())
@@ -411,15 +411,15 @@ const EmployeeList = () => {
               .reverse()
               .map((m, index) => (
                 <tr key={m._id}>
-                  <td style={{ textAlign: "center" }}>{index + 1}</td>
-                  <td style={{ textAlign: "left" }}>{m.department.name}</td>
-                  <td style={{ textAlign: "left" }}>
+                  <td style={{ textAlign: 'center' }}>{index + 1}</td>
+                  <td style={{ textAlign: 'left' }}>{m?.department?.name}</td>
+                  <td style={{ textAlign: 'left' }}>
                     <Avatar
                       className="mr-2"
                       name={m.name}
                       size="45"
                       round={true}
-                    />{" "}
+                    />{' '}
                     {m.name}
                   </td>
                   <td>

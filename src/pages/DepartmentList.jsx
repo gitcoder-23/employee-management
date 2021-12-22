@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import Avatar from "react-avatar";
-import { Button, Modal, notification, Alert, Space } from "antd";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import API from "../api";
-import { EditIcon, DeleteIcon } from "../constant/icons";
+import React, { useState, useEffect } from 'react';
+import Avatar from 'react-avatar';
+import { Button, Modal, notification, Alert, Space } from 'antd';
+import { PlusCircleOutlined } from '@ant-design/icons';
+import API from '../api';
+import { EditIcon, DeleteIcon } from '../constant/icons';
 
 const DepartmentList = () => {
   const [department, setDepartment] = useState([]);
   // const [countdepartment, setDepartment] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   // Search
-  const [search, setSearch] = useState("");
-  const [query, setQuery] = useState("name");
+  const [search, setSearch] = useState('');
+  const [query, setQuery] = useState('name');
 
   // for add data
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
@@ -28,12 +28,12 @@ const DepartmentList = () => {
   const getDepartment = async () => {
     setLoading(true);
     try {
-      const deptData = await API.get("/department");
-      console.log("map-response", deptData);
+      const deptData = await API.get('/department');
+      console.log('map-response', deptData);
       setDepartment(deptData.data.data);
       // no. of employee based on department start
       const setDeptData = deptData.data.data;
-      const empData = await API.get("/employee?populate=department");
+      const empData = await API.get('/employee?populate=department');
       let deptWiseEmp = empData.data.data;
       let mapCount = deptWiseEmp.map((obj) => {
         return obj.department.name;
@@ -77,7 +77,7 @@ const DepartmentList = () => {
     e.preventDefault();
     setQuery(search);
     // to reset after search button click
-    setSearch("");
+    setSearch('');
   };
 
   // add data
@@ -93,8 +93,11 @@ const DepartmentList = () => {
     API.post(`/department`, { name: addData.name })
       .then((response) => {
         notification.success({
-          message: "Success",
-          description: "Department is added successfully",
+          message: 'Success',
+          description: 'Department is added successfully',
+        });
+        setAddValue({
+          name: '',
         });
         setIsAddModalVisible(false);
         getDepartment();
@@ -104,8 +107,8 @@ const DepartmentList = () => {
         const { status, data } = err.response;
         setAddSubmitted(false);
         notification.error({
-          message: "Error",
-          description: "Department added failed",
+          message: 'Error',
+          description: 'Department added failed',
         });
         if (status === 400) {
           setError(data.message.text);
@@ -118,7 +121,7 @@ const DepartmentList = () => {
     saveAdd({ name: addValue.name, id: addValue._id });
   };
   const addDepartmentData = (add) => {
-    console.log("add", add);
+    console.log('add', add);
     setAddValue(add);
     setIsAddModalVisible(true);
   };
@@ -136,8 +139,8 @@ const DepartmentList = () => {
     API.put(`/department/${editData.id}`, { name: editData.name })
       .then((data) => {
         notification.success({
-          message: "Success",
-          description: "Department is edited successfully",
+          message: 'Success',
+          description: 'Department is edited successfully',
         });
         setIsEditModalVisible(false);
         getDepartment();
@@ -152,19 +155,19 @@ const DepartmentList = () => {
     saveEdit({ name: editValue.name, id: editValue._id });
   };
   const editDepartmentData = (edit) => {
-    console.log("edit", edit);
+    console.log('edit', edit);
     setEditValue(edit);
     setIsEditModalVisible(true);
   };
 
   // Delete data
   const makeDelete = (delID) => {
-    if (window.confirm("Do you want to delete?")) {
+    if (window.confirm('Do you want to delete?')) {
       API.delete(`/department/${delID}`)
         .then((data) => {
           notification.success({
-            message: "Success",
-            description: "Department deleted successfully",
+            message: 'Success',
+            description: 'Department deleted successfully',
           });
           getDepartment();
         })
@@ -279,11 +282,11 @@ const DepartmentList = () => {
                 class="form-control me-sm-2"
                 placeholder="Search department"
                 style={{
-                  height: "35px",
-                  display: "initial",
-                  padding: "0 5px",
-                  width: "70%",
-                  fontSize: "14px",
+                  height: '35px',
+                  display: 'initial',
+                  padding: '0 5px',
+                  width: '70%',
+                  fontSize: '14px',
                 }}
                 type="text"
                 value={search}
@@ -292,9 +295,9 @@ const DepartmentList = () => {
               <button
                 class="btn btn-primary my-2 my-sm-0"
                 style={{
-                  height: "35px",
-                  padding: "0 5px",
-                  width: "20%",
+                  height: '35px',
+                  padding: '0 5px',
+                  width: '20%',
                 }}
                 type="submit"
               >
@@ -325,7 +328,7 @@ const DepartmentList = () => {
           <tbody>
             {department
               .filter((val) => {
-                if (search === "") {
+                if (search === '') {
                   return val;
                 } else if (
                   val.name.toLowerCase().includes(search.toLowerCase())
@@ -338,18 +341,18 @@ const DepartmentList = () => {
               .reverse()
               .map((m, index) => (
                 <tr key={m._id}>
-                  <td style={{ textAlign: "center" }}>{index + 1}</td>
+                  <td style={{ textAlign: 'center' }}>{index + 1}</td>
                   {/* <td style={{'textAlign': 'left'}}>{m._id}</td> */}
-                  <td style={{ textAlign: "left" }}>
+                  <td style={{ textAlign: 'left' }}>
                     <Avatar
                       className="mr-2"
                       name={m.name}
                       size="45"
                       round={true}
-                    />{" "}
+                    />{' '}
                     {m.name}
                   </td>
-                  <td style={{ textAlign: "center" }}>{m.count}</td>
+                  <td style={{ textAlign: 'center' }}>{m.count}</td>
                   <td>
                     <Button
                       type="primary rounded-circle"

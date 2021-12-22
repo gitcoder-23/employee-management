@@ -134,6 +134,7 @@ const EmployeeList = () => {
   };
 
   const editEmployee = (m) => {
+    console.log('m->', m);
     const modifiedData = {
       _id: m._id,
       name: m.name,
@@ -153,6 +154,9 @@ const EmployeeList = () => {
         notification.success({
           message: 'Success',
           description: 'Employee is added successfully',
+        });
+        setAddValue({
+          name: '',
         });
         setIsThirdModalVisible(false);
         getEmployee();
@@ -398,10 +402,17 @@ const EmployeeList = () => {
           <tbody>
             {employee
               .filter((val) => {
+                // console.log('val', val);
                 if (search === '') {
                   return val;
                 } else if (
                   val.name.toLowerCase().includes(search.toLowerCase())
+                ) {
+                  return val;
+                } else if (
+                  val.department.name
+                    .toLowerCase()
+                    .includes(search.toLowerCase())
                 ) {
                   return val;
                 } else if (val.search) {
